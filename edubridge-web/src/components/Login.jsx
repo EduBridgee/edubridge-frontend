@@ -5,6 +5,35 @@ const Login = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:8081/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+
+                localStorage.setItem('user', JSON.stringify(userData));
+
+                onLogin(userData);
+            } else {
+                const error = await response.json();
+                alert(error.message || "Credenciales incorrectas");
+            }
+        } catch (err) {
+            console.error("Error en la conexión:", err);
+            alert("No se pudo conectar con el servidor. Verifica que Spring Boot esté corriendo.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center font-['Inter'] p-4 relative overflow-hidden">
             {/* Círculos decorativos animado */}
