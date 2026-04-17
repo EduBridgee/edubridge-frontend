@@ -1,6 +1,31 @@
 import { useEffect, useState } from 'react';
 
 const Recursos = () => {
+    const [recursos, setRecursos] = useState([]);
+    const [filteredRecursos, setFilteredRecursos] = useState([]);
+    const [activeFilter, setActiveFilter] = useState('Todos');
+    const [favoritos, setFavoritos] = useState([]);
+
+    // Estados para el Modal
+    useEffect(() => {
+        cargarDatos();
+    }, []);
+
+
+    // Función de búsqueda en el Header
+    const buscarRecursos = (termino) => {
+        const busqueda = termino.toLowerCase();
+        setFilteredRecursos(
+            recursos.filter(r =>
+                r.title.toLowerCase().includes(busqueda) ||
+                r.subject.toLowerCase().includes(busqueda)
+            )
+        );
+    };
+
+    const toggleFavorito = (id) => {
+        setFavoritos(favoritos.includes(id) ? favoritos.filter(favId => favId !== id) : [...favoritos, id]);
+    };
 
     return (
         <main className="flex-1 ml-64 bg-[#F8FAFC] min-h-screen flex flex-col font-['Inter'] relative">
