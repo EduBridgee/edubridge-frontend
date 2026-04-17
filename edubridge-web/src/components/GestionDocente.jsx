@@ -20,5 +20,28 @@ const GestionDocente = () => {
         message: ''
     });
 
+    // 1. CARGA DE DATOS (Tareas y Alumnos)
+    const cargarDatos = () => {
+        Promise.all([
+            fetch('http://localhost:8081/api/teacher-tasks').then(res => res.json()),
+            fetch('http://localhost:8081/api/students').then(res => res.json())
+        ]).then(([tasksData, studentsData]) => {
+            setTasks(tasksData);
+            setEstudiantes(studentsData);
+
+            const init = {};
+            studentsData.forEach(s => init[s.id] = true);
+            setAsistencia(init);
+
+            setLoading(false);
+        }).catch(err => {
+            console.error("Error sincronizando datos:", err);
+            setLoading(false);
+        });
+    };
+
+    useEffect(() => {
+        cargarDatos();
+    }, []);
 }
 export default GestionDocente;
