@@ -7,10 +7,41 @@ const Recursos = () => {
     const [favoritos, setFavoritos] = useState([]);
 
     // Estados para el Modal
+    const [showModal, setShowModal] = useState(false);
+    const [nuevoRecurso, setNuevoRecurso] = useState({
+        title: '',
+        subject: 'Matemáticas',
+        type: 'PDF',
+        meta: 'Material académico',
+        img: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400',
+        stats: '0 descargas • 1.0 MB',
+        rating: 5.0
+    });
+
+    const cargarDatos = () => {
+        fetch('http://localhost:8081/api/resources')
+            .then(res => res.json())
+            .then(data => {
+                setRecursos(data);
+                setFilteredRecursos(data);
+            })
+            .catch(err => console.error("Error cargando recursos:", err));
+    };
+
     useEffect(() => {
         cargarDatos();
     }, []);
 
+    // Lógica de Filtrado por Categoría
+    useEffect(() => {
+        if (activeFilter === 'Todos') {
+            setFilteredRecursos(recursos);
+        } else {
+            const typeMap = { 'Documentos': 'PDF', 'Videos': 'Video', 'Quizzes': 'Quiz' };
+            const filterValue = typeMap[activeFilter] || activeFilter;
+            setFilteredRecursos(recursos.filter(r => r.type === filterValue));
+        }
+    }, [activeFilter, recursos]);
 
     // Función de búsqueda en el Header
     const buscarRecursos = (termino) => {
@@ -21,6 +52,27 @@ const Recursos = () => {
                 r.subject.toLowerCase().includes(busqueda)
             )
         );
+    };
+
+    const manejarEnvio = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:8081/api/resources', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(nuevoRecurso)
+            });
+            if (response.ok) {
+                setShowModal(false);
+                cargarDatos();
+            }
+        } catch (err) {
+            console.error("Error al subir:", err);
+        }
+    };
+
+    const manejarAccion = (recurso) => {
+        window.open(recurso.type === 'Video' ? `https://www.youtube.com/results?search_query=${recurso.title}` : recurso.img, '_blank');
     };
 
     const toggleFavorito = (id) => {
