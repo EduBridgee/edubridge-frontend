@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ReactComponent as LogoEduBridge } from '../assets/favicon.svg';
+import LogoEduBridge from "../assets/favicon.svg";
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
@@ -42,12 +42,11 @@ const Login = ({ onLogin }) => {
             <div className="bg-white/80 backdrop-blur-2xl w-full max-w-md rounded-[48px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white p-12 relative z-10 transition-all">
                 <div className="text-center mb-12">
 
-                    {/* --- ESTA ES LA PARTE QUE CORREGIMOS --- */}
                     <div className="inline-flex p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[24px] shadow-2xl shadow-blue-200 mb-6 group transition-transform hover:scale-110 items-center justify-center">
-                        {/* 1. Usamos un componente SVG para controlar el color fácilmente */}
-                        <LogoEduBridge
-                            className="w-24 h-24 text-white fill-current" // Aumentamos tamaño y ponemos color blanco
-                            aria-label="EduBridge Logo"
+                        <img
+                            src={LogoEduBridge}
+                            className="w-24 h-24 brightness-0 invert" 
+                            alt="EduBridge Logo"
                         />
                     </div>
                     {/* --------------------------------------- */}
