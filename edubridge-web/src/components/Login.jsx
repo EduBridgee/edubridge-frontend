@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import logo from '../assets/favicon.svg';
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,7 +43,11 @@ const Login = ({ onLogin }) => {
             <div className="bg-white/80 backdrop-blur-2xl w-full max-w-md rounded-[48px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white p-12 relative z-10 transition-all">
                 <div className="text-center mb-12">
                     <div className="inline-flex p-5 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[24px] shadow-2xl shadow-blue-200 mb-6 group transition-transform hover:scale-110">
-                        <span className="text-white text-4xl font-black italic tracking-tighter">EB</span>
+                        <img
+                            src={logo}
+                            alt="EduBridge Logo"
+                            className="w-12 h-12 object-contain" 
+                        />
                     </div>
                     <h2 className="text-4xl font-black text-slate-900 tracking-tighter mb-2">EduBridge</h2>
                     <p className="text-slate-400 text-sm font-bold uppercase tracking-[0.2em]">Sincronización Académica</p>
@@ -86,7 +90,7 @@ const Login = ({ onLogin }) => {
                         className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl transition-all active:scale-95 flex justify-center items-center gap-2 ${loading
                             ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
                             : 'bg-slate-900 text-white shadow-slate-900/20 hover:bg-blue-600 hover:shadow-blue-500/30'
-                        }`}
+                            }`}
                     >
                         {loading ? 'Validando...' : 'Iniciar Sesión 🚀'}
                     </button>
