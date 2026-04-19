@@ -6,7 +6,7 @@ const Student = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8081/api/students')
+    fetch('https://edubridge-backend-2341.onrender.com/api/students')
       .then(res => res.json())
       .then(data => {
         setStudents(data);
