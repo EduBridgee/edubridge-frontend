@@ -57,7 +57,7 @@ const Recursos = () => {
     const manejarEnvio = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8081/api/resources', {
+            const response = await fetch('https://edubridge-backend-2341.onrender.com/api/resources', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(nuevoRecurso)
