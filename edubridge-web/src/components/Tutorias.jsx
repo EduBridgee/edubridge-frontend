@@ -5,7 +5,7 @@ const Tutorias = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:8081/api/tutoring')
+        fetch('https://edubridge-backend-2341.onrender.com/api/tutoring')
             .then(res => res.json())
             .then(data => {
                 setSessions(data);
