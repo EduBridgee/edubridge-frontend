@@ -9,13 +9,13 @@ const Dashboard = ({ user }) => {
         try {
             if (user.role === 'docente') {
                 const [dashRes, stdRes] = await Promise.all([
-                    fetch('http://localhost:8081/api/students/dashboard'),
-                    fetch('http://localhost:8081/api/students')
+                    fetch('https://edubridge-backend-2341.onrender.com/api/students/dashboard'),
+                    fetch('https://edubridge-backend-2341.onrender.com/api/students')
                 ]);
                 setData(await dashRes.json());
                 setStudents(await stdRes.json());
             } else {
-                const notifRes = await fetch(`http://localhost:8081/api/notifications/student/${user.id}`);
+                const notifRes = await fetch(`https://edubridge-backend-2341.onrender.com/api/notifications/student/${user.id}`);
                 const allNotifs = await notifRes.json();
                 setNotifications(allNotifs.filter(n => !n.read));
             }
@@ -30,7 +30,7 @@ const Dashboard = ({ user }) => {
 
     const confirmarLectura = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/notifications/${id}/read`, {
+            const response = await fetch(`https://edubridge-backend-2341.onrender.com/api/notifications/${id}/read`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
