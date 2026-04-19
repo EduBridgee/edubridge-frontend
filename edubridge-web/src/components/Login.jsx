@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ReactComponent as LogoEduBridge } from '../assets/logo.svg';
+import { ReactComponent as LogoEduBridge } from '../assets/favicon.svg';
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
