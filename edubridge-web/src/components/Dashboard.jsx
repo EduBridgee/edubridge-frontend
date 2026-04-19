@@ -212,5 +212,4 @@ const RiskRow = ({ label, value, total, color }) => (
         </div>
     </div>
 );
-
 export default Dashboard;
