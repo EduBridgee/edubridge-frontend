@@ -19,7 +19,7 @@ const Recursos = () => {
     });
 
     const cargarDatos = () => {
-        fetch('http://localhost:8081/api/resources')
+        fetch('https://edubridge-backend-2341.onrender.com/api/resources')
             .then(res => res.json())
             .then(data => {
                 setRecursos(data);
