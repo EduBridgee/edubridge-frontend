@@ -16,7 +16,6 @@ function App() {
     if (savedUser) {
       const parsedUser = JSON.parse(savedUser);
       setUser(parsedUser);
-      console.log("Sesión recuperada para:", parsedUser.name);
     }
   }, []);
 
@@ -31,8 +30,7 @@ function App() {
   }
 
   return (
-    <div className="flex bg-[#F8FAFC] min-h-screen">
-
+    <div className="flex bg-[#F8FAFC] min-h-screen relative">
       <Sidebar
         setPage={setPage}
         currentPage={page}
@@ -41,8 +39,7 @@ function App() {
         onLogout={handleLogout}
       />
 
-      <div className="flex-1 transition-all duration-300">
-
+      <div className="flex-1 w-full transition-all duration-300">
         {page === 'dashboard' && <Dashboard user={user} />}
 
         {user.role === 'docente' && (
@@ -56,17 +53,17 @@ function App() {
         {page === 'recursos' && <Recursos user={user} />}
 
         {user.role === 'estudiante' && (page === 'estudiantes' || page === 'gestion') && (
-          <div className="ml-64 p-20 flex flex-col items-center justify-center min-h-screen text-center">
-            <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center text-3xl mb-6 shadow-sm">
+          <div className="md:ml-64 p-6 md:p-20 flex flex-col items-center justify-center min-h-screen text-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-rose-50 text-rose-500 rounded-2xl md:rounded-3xl flex items-center justify-center text-2xl md:text-3xl mb-6 shadow-sm">
               🚫
             </div>
-            <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tighter italic">Acceso Restringido</h2>
-            <p className="text-slate-400 text-sm mt-2 font-medium max-w-xs">
+            <h2 className="text-xl md:text-2xl font-black text-slate-800 uppercase tracking-tighter italic">Acceso Restringido</h2>
+            <p className="text-slate-400 text-xs md:text-sm mt-2 font-medium max-w-xs">
               Esta sección está reservada exclusivamente para el personal docente de EduBridge.
             </p>
             <button
               onClick={() => setPage('dashboard')}
-              className="mt-8 bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-all"
+              className="mt-8 bg-slate-900 text-white px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all active:scale-95"
             >
               Volver al Inicio
             </button>

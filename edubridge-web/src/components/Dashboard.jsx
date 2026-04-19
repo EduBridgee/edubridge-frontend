@@ -4,7 +4,6 @@ const Dashboard = ({ user }) => {
     const [data, setData] = useState(null);
     const [students, setStudents] = useState([]);
     const [notifications, setNotifications] = useState([]);
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para mobile (opcional si usas sidebar externo)
 
     const fetchData = async () => {
         try {
@@ -47,10 +46,7 @@ const Dashboard = ({ user }) => {
     if (!data && user.role === 'docente') return <div className="md:ml-64 p-10 font-black text-slate-400 animate-pulse">Sincronizando Analítica...</div>;
 
     return (
-        /* Cambiado ml-64 a md:ml-64 para que en móvil ocupe todo el ancho */
         <main className="flex-1 md:ml-64 bg-[#F8FAFC] min-h-screen flex flex-col font-['Inter'] text-left transition-all duration-300">
-
-            {/* HEADER DINÁMICO RESPONSIVE */}
             <header className="bg-white border-b border-slate-200 h-16 md:h-14 flex items-center px-4 md:px-8 shrink-0 sticky top-0 z-10">
                 <div className="relative w-full max-w-md hidden sm:block">
                     <input
@@ -61,8 +57,7 @@ const Dashboard = ({ user }) => {
                     <span className="absolute left-3 top-2 opacity-40 text-sm">🔍</span>
                 </div>
                 
-                {/* Logo o Título visible solo en móvil */}
-                <div className="sm:hidden font-black text-blue-600 text-lg">EduBridge</div>
+                <div className="sm:hidden font-black text-blue-600 text-lg tracking-tighter italic">EduBridge</div>
 
                 <div className="ml-auto flex items-center gap-2 md:gap-4">
                     <div className="relative p-2">
@@ -77,7 +72,6 @@ const Dashboard = ({ user }) => {
             </header>
 
             <div className="flex-1 p-4 md:p-8 space-y-6 overflow-y-auto">
-                {/* TITULOS */}
                 <div>
                     <h1 className="text-slate-900 text-xl md:text-2xl font-black tracking-tight leading-tight">
                         Bienvenido, {user.name.split(' ')[0]} 👋
@@ -89,10 +83,8 @@ const Dashboard = ({ user }) => {
                     </p>
                 </div>
 
-                {/* --- VISTA DOCENTE --- */}
                 {user.role === 'docente' && data && (
                     <>
-                        {/* KPI Cards: 1 columna en móvil, 2 en tablet, 4 en desktop */}
                         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             <KPICard title="Estudiantes" value={data.totalStudents} trend="+5.2%" color="blue" icon="👥" />
                             <KPICard title="Promedio" value={data.averageGrade.toFixed(1)} trend="+2.4%" color="emerald" icon="📊" />
@@ -100,7 +92,6 @@ const Dashboard = ({ user }) => {
                             <KPICard title="Alertas" value={data.highRiskCount} trend="Crítico" color="rose" icon="⚠️" isDanger />
                         </section>
 
-                        {/* Gráficos: 1 columna en móvil, 3 en desktop */}
                         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                             <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                                 <h3 className="font-bold text-slate-800 mb-6 text-sm uppercase tracking-widest">Tendencia de Notas</h3>
@@ -123,10 +114,8 @@ const Dashboard = ({ user }) => {
                     </>
                 )}
 
-                {/* --- VISTA ESTUDIANTE --- */}
                 {user.role === 'estudiante' && (
                     <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Columna de Notificaciones: Primero en móvil, ocupa 2/3 en desktop */}
                         <div className="lg:col-span-2 space-y-4">
                             <h3 className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em]">Avisos del Docente</h3>
 
@@ -160,13 +149,12 @@ const Dashboard = ({ user }) => {
                             )}
                         </div>
 
-                        {/* Sidebar del Alumno: Abajo en móvil, lateral en desktop */}
                         <div className="space-y-6 order-first lg:order-last">
                             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl md:rounded-[2rem] p-6 text-white shadow-xl shadow-blue-200">
                                 <p className="text-blue-100 text-[10px] font-black uppercase tracking-widest mb-1">Mi Promedio</p>
                                 <h3 className="text-4xl font-black italic">17.2</h3>
                                 <div className="mt-4 p-3 bg-white/10 rounded-xl border border-white/10">
-                                    <p className="text-[10px] font-bold">¡Estás 2.4 puntos arriba del promedio!</p>
+                                    <p className="text-[10px] font-bold leading-relaxed">¡Buen trabajo! Estás 2.4 puntos arriba del promedio del aula.</p>
                                 </div>
                             </div>
 
@@ -188,7 +176,6 @@ const Dashboard = ({ user }) => {
     );
 };
 
-// Componentes Reutilizables con ajustes de padding y texto
 const KPICard = ({ title, value, trend, color, icon, isDanger }) => (
     <div className="bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
         <div className="flex justify-between items-start">
