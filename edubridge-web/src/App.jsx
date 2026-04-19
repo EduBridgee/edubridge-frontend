@@ -1,121 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
+import Student from './components/Student';
+import Tutorias from './components/Tutorias';
+import Recursos from './components/Recursos';
+import GestionDocente from './components/GestionDocente';
+import Login from './components/Login';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [page, setPage] = useState('dashboard');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      console.log("Sesión recuperada para:", parsedUser.name);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setPage('dashboard');
+  };
+
+  if (!user) {
+    return <Login onLogin={setUser} />;
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="flex bg-[#F8FAFC] min-h-screen">
 
-      <div className="ticks"></div>
+      <Sidebar
+        setPage={setPage}
+        currentPage={page}
+        userRole={user.role}
+        userName={user.name} 
+        onLogout={handleLogout}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <div className="flex-1 transition-all duration-300">
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {page === 'dashboard' && <Dashboard user={user} />}
+
+        {user.role === 'docente' && (
+          <>
+            {page === 'estudiantes' && <Student />}
+            {page === 'gestion' && <GestionDocente />}
+          </>
+        )}
+
+        {page === 'tutorias' && <Tutorias user={user} />}
+        {page === 'recursos' && <Recursos user={user} />}
+
+        {user.role === 'estudiante' && (page === 'estudiantes' || page === 'gestion') && (
+          <div className="ml-64 p-20 flex flex-col items-center justify-center min-h-screen text-center">
+            <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center text-3xl mb-6 shadow-sm">
+              🚫
+            </div>
+            <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tighter italic">Acceso Restringido</h2>
+            <p className="text-slate-400 text-sm mt-2 font-medium max-w-xs">
+              Esta sección está reservada exclusivamente para el personal docente de EduBridge.
+            </p>
+            <button
+              onClick={() => setPage('dashboard')}
+              className="mt-8 bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-all"
+            >
+              Volver al Inicio
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
