@@ -23,8 +23,8 @@ const GestionDocente = () => {
     // 1. CARGA DE DATOS (Tareas y Alumnos)
     const cargarDatos = () => {
         Promise.all([
-            fetch('http://localhost:8081/api/teacher-tasks').then(res => res.json()),
-            fetch('http://localhost:8081/api/students').then(res => res.json())
+            fetch('https://edubridge-backend-2341.onrender.com/api/teacher-tasks').then(res => res.json()),
+            fetch('https://edubridge-backend-2341.onrender.com/api/students').then(res => res.json())
         ]).then(([tasksData, studentsData]) => {
             setTasks(tasksData);
             setEstudiantes(studentsData);
@@ -63,7 +63,7 @@ const GestionDocente = () => {
     const manejarEnvioNotificacion = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8081/api/notifications', {
+            const response = await fetch('https://edubridge-backend-2341.onrender.com/api/notifications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(nuevaNotif)
